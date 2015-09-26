@@ -78,7 +78,7 @@ describe('ShellSort', function() {
     expect(dupArray).to.deep.equal([1, 2, 2]);
   });
   it("3-elements array should have moves = 3", function() {
-    expect(shellSort(threeArr)).to.equal(3);
+    expect(shellSort(threeArr)).to.equal(1);
     expect(threeArr).to.deep.equal([1, 2, 3]);
   });
   it("Ten elements array should have moves = 11", function() {
@@ -154,3 +154,23 @@ describe('QuickSort', function() {
     expect(temp[0]).to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 });
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function makeArray() {
+  var random = new Array(100);
+  for (var ran = 0; ran < 100; ran++) {
+    random[ran] = getRandomInt(0, 99);
+  }
+  return random;
+}
+
+var bubbles = makeArray();
+bubbleSort(bubbles);
+var selects = makeArray();
+selectSort(selects);
+var shells = makeArray();
+shellSort(shells);
+var quicks = shellSort(makeArray());
+var merges = mergeSort(markArray());

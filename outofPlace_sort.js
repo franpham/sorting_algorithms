@@ -50,18 +50,3 @@ function mergeSort(vals) {
   }
   return [divide(vals), total];   // sort must be BEFORE total since comma evaluate left to right;
 }
-
-  // function sort(index) {
-  //   if (index === list.length - 1) {
-  //     return;
-  //   }
-  //   if (list[list.length - 1] < list[index]) {
-  //     var temp = list[index];
-  //     list[index] = list[list.length - 1];
-  //     list[list.length - 1] = temp;
-  //     total++;
-  //     if (list.length === 2)
-  //       return;
-  //   } // else list[0] is next smallest
-  //   sort(index + 1);
-  // }
