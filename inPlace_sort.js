@@ -43,7 +43,7 @@ function selectSort(list, isprint) {
     if (index === list.length - 1) {
       return;
     }
-    var min = list.reduce(function(prev, curr, idx) {   // only compare from idx;
+    var min = list.reduce(function(prev, curr, idx) {   // only compare from index;
       return idx <= index ? list[index] : Math.min(prev, curr);
     });
     var minIndex = list.indexOf(min, index);
@@ -67,15 +67,14 @@ function shellSort(list) {    // optimization for insertion sort;
 
   function sort(exp) {
     var gap = Math.pow(2, exp) - 1;
+//    list.slice(gap).forEach(function(val, i, arr) {
     for (var i = gap; i < list.length; i++) {
-      var temp = list[i];      // shift larger values up;
-      for (var j = i; j >= gap && temp < list[j - gap]; j -= gap) {
-        // console.log('j = ' + j + ', exp = ' + exp);
-
+      var temp = list[i];             // shift larger values up;
+      for (var j = i; temp < list[j - gap] && j >= gap; j -= gap) {
         list[j] = list[j - gap];
         total++;
       }
-      list[j] = temp;
+      list[j] = temp;   // must be outside of loop in case next gap is not larger;
     }
     if (exp > 1)
       sort(exp - 1);

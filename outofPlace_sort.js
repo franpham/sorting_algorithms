@@ -23,6 +23,7 @@ function quickSort(values) {
   return [sort(values), total];   // sort must be BEFORE total since comma evaluate left to right;
 }
 
+// ave-case: O(nlogn) comparisons and writes; out-of-place sorting;
 function mergeSort(vals) {
   var total = 0;
   function divide(values) {
