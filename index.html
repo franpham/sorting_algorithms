@@ -2,16 +2,20 @@
 <html>
 <head>
   <title>Sorting Algorithms</title>
-  <link rel="stylesheet" type="text/css" href="node_modules/mocha/mocha.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/mocha/mocha.css" />
+  <link rel="stylesheet" type="text/css" href="css/styles.css" />
 </head>
 <body>
+  <div id="indices"></div>
   <div id="mocha"></div>
   <script type="text/javascript" src="node_modules/mocha/mocha.js"></script>
   <script type="text/javascript" src="node_modules/chai/chai.js"></script>
-  <script type="text/javascript" src="inPlace_sort.js"></script>
-  <script type="text/javascript" src="outofPlace_sort.js"></script>
-  <script>mocha.setup('bdd');</script>
-  <script type="text/javascript" src="appTest.js"></script>
-  <script>mocha.run();</script>     <!-- test.js MUST be between setup() && mocha.run() -->
+  <script type="text/javascript" src="js/inPlace_sort.js"></script>
+  <script type="text/javascript" src="js/outofPlace_sort.js"></script>
+  <script type="text/javascript" src="js/viewTest.js"></script>
+  <!-- <script>mocha.setup('bdd');</script>
+  <script type="text/javascript" src="js/appTest.js"></script>
+  <script>mocha.run();</script> -->
+  <!-- test.js MUST be between setup() && mocha.run() -->
 </body>
 </html>

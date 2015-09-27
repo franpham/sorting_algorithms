@@ -1,0 +1,17 @@
+
+.cell {
+  width: 32px;
+  height: 32px;
+  padding: 2px;
+  margin-top: 8px;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  border: 1px black ridge;
+  background-color: #F5F5DC;
+}
+
+.moved {
+  border: 1px blue groove;
+  background-color: yellow;
+}

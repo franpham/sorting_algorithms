@@ -1,44 +1,55 @@
+// arrays to store swaps [position1, val1, position2, val2];
+var bubbles = [];
+var selects = [];
+var shells  = [];
 
 // ave-case: O(n2) comparisons, O(n2) writes; in-place sorting; for mostly sorted arrays, ave-case is O(2n) for comparisons & writes;
-function bubbleSort(values) {
-  var done = false;       // boolean to check if inner sort is done;
+function bubble2Sort(values) {
   var total = count = backcount = 0;
+  if (values.length <= 1) {
+    return total;
+  }
   values.forEach(function(val, idx, arr) {
     function sort(list, index) {
-      if (list.length === 0 || index === list.length - 1)
-        return count + backsort(list, idx);   // idx == initial index given to sort;
+      if (index === list.length - 1)
+        return count;
       else if (list[index + 1] < list[index]) {
+        bubbles.push([index, list[index + 1], index + 1, list[index]]);
         var temp = list[index];
         list[index] = list[index + 1];
         list[index + 1] = temp;
+        swapped = true;
         count++;
       }
-      return done ? count : sort(list, index + 1);
+      if (!swapped)
+        return sort(list, index + 1);
     }
     function backsort(list, index) {
-      if (list.length === 0 || index === 0)
+      if (index === 0)
         return backcount;
       else if (list[index - 1] > list[index]) {
+        bubbles.push([index, list[index - 1], index - 1, list[index]]);
         var temp = list[index];
         list[index] = list[index - 1];
         list[index - 1] = temp;
+        swapped = true;
         backcount++;
       }
-      else
-        done = true;    // adjacent neighbors are sorted, so can stop outer sort;
       return backsort(list, index - 1);
     }
     count = backcount = 0;
+    var swapped = false;      // if swapped === true, all values were sorted;
     total += sort(arr, idx);
-    // total += backsort(arr, idx);
-    // call backsort here (same count results) if sort && backsort were not inner functions;
+    if (swapped) {
+      swapped = false;
+      total += backsort(arr, idx);
+    }
   });
   return total;
 }
 
 // ave-case: O(n2) comparisons, O(n) writes; in-place sorting;
 function selectSort(list) {
-  var total = 0;
   function sort(index) {
     if (index === list.length - 1) {
       return;
@@ -48,6 +59,7 @@ function selectSort(list) {
     });
     var minIndex = list.indexOf(min, index);
     if (minIndex > 0) {
+      selects.push([index, list[minIndex], minIndex, list[index]]);
       var temp = list[index];
       list[index] = list[minIndex];
       list[minIndex] = temp;
@@ -55,6 +67,7 @@ function selectSort(list) {
     } // else list[0] is next smallest;
     sort(index + 1);
   }
+  var total = 0;
   if (list.length > 1)
     sort(0);
   return total;
@@ -63,12 +76,14 @@ function selectSort(list) {
 // ave-case: O(n3/2) comparisons, O(n2) writes; in-place sorting;
 function shellSort(list) {    // optimization for insertion sort;
   var total = 0;
-  var max = Math.floor(Math.log2(list.length));
-
+  if (list.length <= 1)
+    return total;
   function sort(gap, i) {
     if (i < list.length) {
       var temp = list[i];
       for (var j = i; temp < list[j - gap] && j >= gap; j -= gap) {
+
+        shells.push([j, list[j - gap], j - gap, list[i]]);    // NOT list[j]!!!
         list[j] = list[j - gap];      // shift larger values up (j is larger index);
         total++;
       }
@@ -76,13 +91,12 @@ function shellSort(list) {    // optimization for insertion sort;
       sort(gap, i + 1);
     }
   }
-  if (list.length <= 1)
-    return total;
+  var max = Math.floor(Math.log2(list.length));
   var vals = (new Array(max)).fill(max);
   vals = vals.map(function(num, idx, arr) { return num - idx; });
   vals.forEach(function(num, idx, arr) {
     var gap = Math.pow(2, num) - 1;
-    sort(gap, gap);     // gap is both the swap interval and the starting index;
+    sort(gap, gap);     // gap is both the swapped interval and the starting index;
   });
   return total;
 }
