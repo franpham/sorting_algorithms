@@ -78,17 +78,22 @@ function shellSort(list) {    // optimization for insertion sort;
   function sort(gap, i) {
     if (i < list.length) {
       var temp = list[i];
+      var tempJ = jgapVal = null;
       for (var j = i; temp < list[j - gap] && j >= gap; j -= gap) {
-
-        shells.push([j, list[j - gap], j - gap, list[i]]);    // NOT list[j]!!!
+        if (tempJ !== null)
+          shells.push([tempJ, jgapVal, j, list[j - gap]]);
+        tempJ = j;       // set these values after push();
+        jgapVal = list[j - gap];
         list[j] = list[j - gap];      // shift larger values up (j is larger index);
         total++;
       }
+      if (tempJ !== null)
+        shells.push([tempJ, jgapVal, j, temp]);
       list[j] = temp;   // must be outside of loop in case next gap is not larger;
       sort(gap, i + 1);
     }
   }
-  var max = Math.floor(Math.log2(list.length));
+  var max = Math.floor(Math.log(list.length) / Math.LN2);
   var vals = (new Array(max)).fill(max);
   vals = vals.map(function(num, idx, arr) { return num - idx; });
   vals.forEach(function(num) {
@@ -99,10 +104,6 @@ function shellSort(list) {    // optimization for insertion sort;
 }
 
 //  --------------------------------  POLYFILL FUNCTIONS FOR ES6  -----------------
-
-Math.log2 = Math.log2 || function(x) {
-  return Math.log(x) / Math.LN2;
-};
 
 if (!Array.prototype.findIndex) {
   Array.prototype.findIndex = function(predicate) {
@@ -127,7 +128,7 @@ if (!Array.prototype.findIndex) {
 
 if (!Array.prototype.fill) {
   Array.prototype.fill = function(value) {
-    if (this == null) {
+    if (this === null) {
       throw new TypeError('this is null or not defined');
     }
     var O = Object(this);

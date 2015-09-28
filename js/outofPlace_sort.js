@@ -5,7 +5,7 @@ var merges = [];
 // ave-case: O(n*logn) comparisons, O(n) writes; out-of-place sorting;
 function quickSort(values, listOnly) {
   var total = 0;
-  function sort(list) {
+  function sort(list, offset) {     // offset is the offset position in the ORIGINAL array;
     if (list.length <= 1)
       return list;
     else if (list.length === 2) {
@@ -13,23 +13,28 @@ function quickSort(values, listOnly) {
         quicks.push(0, list[0], 1, list[1]);
       return list[0] < list[1] ? list : [list[1], list[0]];
     }
-    var mid = list[parseInt(list.length / 2)];
+    var midVal = list[parseInt(list.length / 2)];
     var left = [];
     var right = [];
+    var swaps = [];
     list.forEach(function(val, idx, arr) {
-      if (val < mid) {
-        quicks.push([left.length, val, idx, arr[left.length]]);
+      if (val < midVal) {
+        quicks.push([offset + left.length, val, offset + idx, values[offset + idx]]);
         left.push(val);
       }
-      else if (val > mid) {
-        quicks.push([right.length + mid, val, idx, arr[right.length + mid]]);
+      else if (val > midVal) {
+        swaps.push([offset + right.length, val, offset + idx, values[offset + idx]]);
         right.push(val);
       }
     });
+    swaps.forEach(function(sublist, idx, arr) { // left.length is not known till after forEach;
+      sublist[0] += left.length + 1;
+    });
+    Array.prototype.push.apply(quicks, swaps);  // merge the 2 arrays;
     total++;
-    return sort(left).concat(mid).concat(sort(right));
+    return sort(left, offset).concat(midVal).concat(sort(right, offset + left.length + 1));
   }
-  return listOnly ? sort(values) : [sort(values), total];
+  return listOnly ? sort(values, 0) : [sort(values, 0), total];
 } // sort must be BEFORE total since comma evaluate left to right;
 
 // ave-case: O(nlogn) comparisons and writes; out-of-place sorting;
@@ -44,9 +49,9 @@ function mergeSort(vals, listOnly) {
   function divide(values) {
     if (values.length <= 1)
       return values;
-    var mid = values.length / 2;
+    var mid = parseInt(values.length / 2);
     var left = values.slice(0, mid);
-    var right= values.slice(mid);
+    var right = values.slice(mid);
     return sort(divide(left), divide(right), mid);
   }
   function sort(left, right, mid) {
