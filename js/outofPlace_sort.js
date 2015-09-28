@@ -38,9 +38,9 @@ function mergeSort(vals, listOnly) {
   // NOTE: searching for positions will not work for arrays with duplicates;
   var total = 0;
   var positions = {};
-  for (var i = 0; i < vals.length; i++) {
-    positions[vals[i]] = i;   // val is key; index is value;
-  }
+  vals.forEach(function(val, idx, arr) {
+    positions[val] = idx;
+  });
   function divide(values) {
     if (values.length <= 1)
       return values;

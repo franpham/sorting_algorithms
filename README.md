@@ -1,6 +1,6 @@
 # Sorting Algorithms
 
-Implementations of 5 common sorting functions: quick sort, merge sort, selection sort, shell sort (an optimization of insertion sort), and cocktail sort (a 2-way bubble sort).
+Implementations of 5 common sorting functions: quick sort, merge sort, selection sort, shell sort (an optimized insertion sort), and cocktail sort (an optimized 2-way bubble sort).
 
 Quick Sort average case: O(n*logn) comparisons, O(n) writes; out-of-place sorting.
 
